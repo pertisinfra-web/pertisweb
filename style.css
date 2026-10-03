@@ -179,6 +179,10 @@ a {
   position: relative;
   overflow: hidden;
   padding: clamp(3rem, 8vw, 6rem) 0 clamp(4rem, 10vw, 7rem);
+  min-height: calc(100vh - 4.5rem);
+  min-height: calc(100svh - 4.5rem);
+  display: flex;
+  align-items: center;
   background:
     linear-gradient(165deg, var(--black) 0%, var(--black) 50%, #0c1220 78%, var(--deep-blue) 100%);
 }
@@ -235,6 +239,7 @@ a {
   position: relative;
   z-index: 1;
   text-align: center;
+  width: 100%;
 }
 
 .hero-title {
@@ -695,4 +700,21 @@ a {
   margin: 0 auto 2rem;
   color: var(--muted);
   font-size: 1.1rem;
+}
+
+/* Phone optimisations (kept last so they override base rules) */
+@media (max-width: 639px) {
+  .container { width: min(100% - 2.5rem, var(--max-width)); }
+  .hero { padding: 3rem 0; }
+  .hero-title { font-size: clamp(3.25rem, 15vw, 4.5rem); }
+  .hero-sub { font-size: 1.15rem; max-width: 30ch; }
+  .progress-wrap { max-width: 100%; }
+  .progress-header { font-size: 1rem; }
+  .progress-track { height: 10px; }
+  .hero-brackets { width: 48px; height: 48px; }
+  .hero-brackets--tl { top: 1.5rem; }
+  .section-title { font-size: clamp(2.25rem, 10vw, 3rem); }
+  .btn { width: 100%; padding: 1rem 1.75rem; font-size: 1rem; }
+  .contact-actions { flex-direction: column; }
+  .card:hover, .contact-block:hover { transform: none; }
 }
