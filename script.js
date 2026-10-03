@@ -1,17 +1,20 @@
-/**
- * Pertis Infra — Under Construction
- * Fade-in on load and on scroll; respects prefers-reduced-motion.
- */
-
 (function () {
   "use strict";
 
+  var emailUser = "info";
+  var emailDomain = "pertisinfra.com";
+  var emailAddress = emailUser + "@" + emailDomain;
+
+  document.querySelectorAll("[data-email-link]").forEach(function (link) {
+    link.href = "mailto:" + emailAddress;
+  });
+
+  document.querySelectorAll("[data-email-address]").forEach(function (address) {
+    address.textContent = emailAddress;
+  });
+
   var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /**
-   * Mark elements visible (fade-up animation).
-   * @param {Element[]} elements
-   */
   function reveal(elements) {
     elements.forEach(function (el) {
       el.classList.add("is-visible");
@@ -25,19 +28,16 @@
     return;
   }
 
-  // Hero content: stagger reveal shortly after load
   var heroContent = document.querySelector(".hero-content");
   if (heroContent) {
     var heroFade = heroContent.querySelectorAll(".fade-up");
     window.requestAnimationFrame(function () {
-      heroFade.forEach(function (el, i) {
-        el.style.transitionDelay = i * 0.1 + "s";
+      heroFade.forEach(function (el) {
         el.classList.add("is-visible");
       });
     });
   }
 
-  // Sections below hero: IntersectionObserver
   var observer = new IntersectionObserver(
     function (entries) {
       entries.forEach(function (entry) {
@@ -63,7 +63,6 @@
     observer.observe(section);
   });
 
-  // Observe standalone fade-ups outside hero (if any)
   fadeEls.forEach(function (el) {
     if (heroContent && heroContent.contains(el)) return;
     if (el.closest(".services") || el.closest(".contact")) return;

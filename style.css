@@ -3,7 +3,14 @@
    Edit text in index.html; colours and spacing live here.
    ========================================================================== */
 
-/* --- Roxborough CF (hero / section headings) — add more src lines if you add woff2/woff/otf */
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @font-face {
   font-family: "Roxborough CF";
   src: url("fonts/Roxborough CF.ttf") format("truetype");
@@ -24,7 +31,7 @@
   --muted: #9AA4B2;
 
   --font-heading: "Roxborough CF", Georgia, serif;
-  --font-brand: "Work Sans", sans-serif;
+  --font-brand: "Inter", system-ui, -apple-system, sans-serif;
   --font-body: "Inter", system-ui, -apple-system, sans-serif;
 
   --radius: 4px;
@@ -412,6 +419,14 @@ a {
   line-height: 1.65;
 }
 
+.cards .card:nth-child(2) {
+  --stagger: 1;
+}
+
+.cards .card:nth-child(3) {
+  --stagger: 2;
+}
+
 .card:hover {
   transform: translateY(-6px);
   border-color: var(--infra-blue);
@@ -513,6 +528,11 @@ a {
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
+}
+
+.email-noscript {
+  margin: 0 auto 2rem;
+  color: var(--muted);
 }
 
 /* Buttons */
@@ -623,10 +643,56 @@ a {
   transform: translateY(0);
 }
 
+.hero-content .fade-up:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.hero-content .fade-up:nth-child(3) {
+  transition-delay: 0.2s;
+}
+
+.hero-content .fade-up:nth-child(4) {
+  transition-delay: 0.3s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fade-up {
     opacity: 1;
     transform: none;
     transition: none;
   }
+}
+
+.not-found {
+  display: grid;
+  min-height: calc(100vh - 4.5rem);
+  place-items: center;
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.not-found__content {
+  max-width: 42rem;
+}
+
+.not-found__code {
+  margin: 0 0 1rem;
+  color: var(--sky-blue);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.not-found__title {
+  margin: 0 0 1rem;
+  font-family: var(--font-heading);
+  font-size: clamp(2.75rem, 8vw, 5rem);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.not-found__copy {
+  margin: 0 auto 2rem;
+  color: var(--muted);
+  font-size: 1.1rem;
 }
