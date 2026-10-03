@@ -2,3 +2,7 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 *.log
+.vercel
+node_modules
+.env
+.env.*

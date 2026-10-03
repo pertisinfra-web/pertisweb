@@ -12,8 +12,8 @@ python -m http.server 8765
 
 Then visit `http://localhost:8765`.
 
-## Deploy
+## Deploy (Vercel)
 
-Upload all project files (including `fonts/`) to any static host (GitHub Pages, Netlify, etc.).
+Import the GitHub repo at vercel.com/new. Framework preset: **Other**; leave build command and output directory empty (configured in `vercel.json`). Security headers and caching are defined there too.
 
 Repository: [github.com/pertisinfra-web/pertisweb](https://github.com/pertisinfra-web/pertisweb)
