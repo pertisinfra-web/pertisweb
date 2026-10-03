@@ -337,106 +337,253 @@ a {
 }
 
 /* ==========================================================================
-   Services (light section)
+   Capabilities (editorial sector list)
    ========================================================================== */
-.section-light {
-  background: var(--light-grey);
-  color: var(--black);
-  padding: clamp(4rem, 8vw, 6rem) 0;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-
-@media (min-width: 640px) {
-  .cards {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-}
-
-@media (min-width: 960px) {
-  .cards {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.card {
+.capabilities {
   position: relative;
+  overflow: hidden;
+  padding: clamp(4rem, 9vw, 7rem) 0 clamp(3rem, 7vw, 5.5rem);
   background: var(--charcoal);
-  border: 1px solid var(--steel);
-  border-radius: var(--radius);
-  padding: 2rem 1.75rem 2.25rem;
   color: var(--white);
-  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.35s var(--ease);
+  border-top: 1px solid var(--steel);
 }
 
-.card-corner {
+/* Barely-visible blueprint grid */
+.capabilities-grid {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 24px;
-  height: 24px;
-  border-top: 2px solid var(--infra-blue);
-  border-right: 2px solid var(--infra-blue);
-  opacity: 0.5;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(var(--steel) 1px, transparent 1px),
+    linear-gradient(90deg, var(--steel) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
 }
 
-.card-icon {
-  margin-bottom: 1.25rem;
+.capabilities .container {
+  position: relative;
 }
 
-.signal-wave {
-  animation: signal-pulse 2s ease-in-out infinite;
+.capabilities-title {
+  max-width: 14ch;
+  margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
 }
 
-.signal-wave--2 {
-  animation-delay: 0.35s;
-}
-
-@keyframes signal-pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .signal-wave {
-    animation: none;
-  }
-}
-
-.card-title {
-  font-family: var(--font-brand);
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-style: normal;
-  font-size: 1.5rem;
-  margin: 0 0 0.75rem;
-}
-
-.card-desc {
+.sectors {
+  list-style: none;
   margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--steel);
+}
+
+.sector {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "no arrow"
+    "name name"
+    "desc desc";
+  align-items: center;
+  row-gap: 0.5rem;
+  padding: 1.75rem 0 2rem;
+  border-bottom: 1px solid var(--steel);
+  outline: none;
+  cursor: default;
+}
+
+/* Blue accent that draws across the divider */
+.sector::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--infra-blue);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s var(--ease);
+}
+
+.sector-no {
+  grid-area: no;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  font-variant-numeric: tabular-nums;
+  color: var(--sky-blue);
+  transition: color 0.3s var(--ease);
+}
+
+.sector-no::after {
+  content: "";
+  width: 1.25rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+  transition: width 0.35s var(--ease), opacity 0.3s var(--ease);
+}
+
+.sector-name {
+  grid-area: name;
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 11vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  color: rgba(255, 255, 255, 0.82);
+  transition: color 0.3s var(--ease), transform 0.35s var(--ease);
+}
+
+.sector-desc {
+  grid-area: desc;
+  margin: 0.25rem 0 0;
+  max-width: 34ch;
   color: var(--muted);
   font-size: 0.95rem;
   line-height: 1.65;
+  position: relative;
+  z-index: 1;
 }
 
-.cards .card:nth-child(2) {
-  --stagger: 1;
+.sector-arrow {
+  grid-area: arrow;
+  justify-self: end;
+  color: var(--muted);
+  transition: transform 0.3s var(--ease), color 0.3s var(--ease);
 }
 
-.cards .card:nth-child(3) {
-  --stagger: 2;
+/* Technical line drawings */
+.sector-art {
+  position: absolute;
+  right: 0;
+  bottom: 1.5rem;
+  width: clamp(110px, 34vw, 150px);
+  height: auto;
+  pointer-events: none;
+  overflow: visible;
 }
 
-.card:hover {
-  transform: translateY(-6px);
-  border-color: var(--infra-blue);
-  box-shadow: 0 12px 40px rgba(0, 87, 255, 0.2);
+.sector-art path,
+.sector-art circle {
+  fill: none;
+  stroke: var(--sky-blue);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0.55;
+  opacity: 0.16;
+  transition: stroke-dashoffset 0.6s var(--ease), opacity 0.35s var(--ease);
 }
+
+/* Active state: hover, keyboard focus, or tap */
+.sector:hover::after,
+.sector:focus::after {
+  transform: scaleX(1);
+}
+
+.sector:hover .sector-name,
+.sector:focus .sector-name {
+  color: var(--white);
+  transform: translateX(4px);
+}
+
+.sector:hover .sector-no,
+.sector:focus .sector-no {
+  color: var(--infra-blue);
+}
+
+.sector:hover .sector-no::after,
+.sector:focus .sector-no::after {
+  width: 2.25rem;
+  opacity: 1;
+}
+
+.sector:hover .sector-arrow,
+.sector:focus .sector-arrow {
+  color: var(--infra-blue);
+  transform: translateX(6px);
+}
+
+.sector:hover .sector-art path,
+.sector:hover .sector-art circle,
+.sector:focus .sector-art path,
+.sector:focus .sector-art circle {
+  stroke-dashoffset: 0;
+  opacity: 0.6;
+}
+
+.sector:focus-visible {
+  outline: 2px solid var(--sky-blue);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Tablet: title row + description row, art on the right */
+@media (min-width: 640px) {
+  .sector {
+    grid-template-columns: 4.5rem 1fr auto;
+    grid-template-areas:
+      "no name arrow"
+      ".  desc arrow";
+    column-gap: 1.5rem;
+    padding: 2.25rem 0 2.5rem;
+  }
+
+  .sector-no {
+    align-self: start;
+    padding-top: 0.9rem;
+  }
+
+  .sector-desc {
+    max-width: 40ch;
+  }
+
+  .sector-art {
+    right: 4rem;
+    bottom: 1.75rem;
+    width: 150px;
+  }
+}
+
+/* Desktop: number | title | drawing | description | arrow */
+@media (min-width: 960px) {
+  .sector {
+    grid-template-columns: 5rem minmax(0, 1.1fr) 8rem minmax(0, 0.8fr) 2.5rem;
+    grid-template-areas: "no name art desc arrow";
+    column-gap: 1.5rem;
+    align-items: center;
+    padding: 2.75rem 0;
+  }
+
+  .sector-no {
+    align-self: center;
+    padding-top: 0;
+  }
+
+  .sector-name {
+    font-size: clamp(3rem, 4.8vw, 4.25rem);
+  }
+
+  .sector-desc {
+    margin: 0;
+    max-width: 34ch;
+  }
+
+  .sector-art {
+    position: static;
+    grid-area: art;
+    width: 100%;
+    justify-self: center;
+  }
+}
+
 
 /* ==========================================================================
    Contact
@@ -716,5 +863,5 @@ a {
   .section-title { font-size: clamp(2.25rem, 10vw, 3rem); }
   .btn { width: 100%; padding: 1rem 1.75rem; font-size: 1rem; }
   .contact-actions { flex-direction: column; }
-  .card:hover, .contact-block:hover { transform: none; }
+  .contact-block:hover { transform: none; }
 }
